@@ -1,6 +1,5 @@
-#define UNICODE
 #pragma comment(lib,"imm32")
-#include<windows.h>
+#include <windows.h>
 
 TCHAR szClassName[] = TEXT("Window");
 
