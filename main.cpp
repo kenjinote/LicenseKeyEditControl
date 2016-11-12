@@ -145,13 +145,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-EXTERN_C void __cdecl WinMainCRTStartup()
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR pCmdLine, int nCmdShow)
 {
 	MSG msg;
-	HINSTANCE hInstance = GetModuleHandle(0);
-	WNDCLASS wndclass = { 0, WndProc, 0, DLGWINDOWEXTRA, hInstance, 0, LoadCursor(0, IDC_ARROW), 0, 0, szClassName };
+	WNDCLASS wndclass = {
+		CS_HREDRAW | CS_VREDRAW,
+		WndProc,
+		0,
+		DLGWINDOWEXTRA,
+		hInstance,
+		0,
+		LoadCursor(0,IDC_ARROW),
+		0,
+		0,
+		szClassName
+	};
 	RegisterClass(&wndclass);
-	HWND hWnd = CreateWindow(szClassName, TEXT("ライセンスキー入力"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, 0, 0, hInstance, 0);
+	HWND hWnd = CreateWindow(
+		szClassName,
+		TEXT("ライセンスキー入力"),
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT,
+		0,
+		CW_USEDEFAULT,
+		0,
+		0,
+		0,
+		hInstance,
+		0
+	);
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 	UpdateWindow(hWnd);
 	while (GetMessage(&msg, 0, 0, 0))
@@ -162,9 +185,5 @@ EXTERN_C void __cdecl WinMainCRTStartup()
 			DispatchMessage(&msg);
 		}
 	}
-	ExitProcess(msg.wParam);
+	return (int)msg.wParam;
 }
-
-#if _DEBUG
-void main(){}
-#endif
